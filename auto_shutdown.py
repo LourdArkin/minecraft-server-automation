@@ -106,15 +106,41 @@ while True:
         else:
             current_players = set()
 
+        # ========================
         # Detect Joins
+        # ========================
         joined = current_players - previous_players
-        for player in joined:
-            log(f"{player} joined the server.")
 
+        if joined:
+            for player in joined:
+                log(f"{player} joined the server.")
+
+            player_list = "\n".join(f"- **{player}**" for player in sorted(joined))
+
+            send_discord(
+                "## 👋 Welcome!\n"
+                "The following player(s) joined the server:\n\n"
+                f"{player_list}\n\n"
+                "Have fun! ⛏️"
+            )
+
+        # ========================
         # Detect Leaves
+        # ========================
         left = previous_players - current_players
-        for player in left:
-            log(f"{player} left the server.")
+
+        if left:
+            for player in left:
+                log(f"{player} left the server.")
+
+            player_list = "\n".join(f"- **{player}**" for player in sorted(left))
+
+            send_discord(
+                "## 🌙 Session Update\n"
+                "The following player(s) left the server:\n\n"
+                f"{player_list}\n\n"
+                "See you next time! 👋"
+            )
 
         previous_players = current_players
 
